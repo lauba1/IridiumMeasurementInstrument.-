@@ -1,0 +1,2 @@
+1. https://code.visualstudio.com/ path for install: C:\d\tools\MicrosoftVSCode
+2. PlatformIO hint : IN VSCode in Extensions - run install the platformIO
