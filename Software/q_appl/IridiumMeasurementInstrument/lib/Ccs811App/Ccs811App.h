@@ -1,5 +1,5 @@
-#ifndef SHT_31_APP_H
-#define SHT_31_APP_H
+#ifndef CCS_811_APP_H
+#define CCS_811_APP_H
 /*!
  * \file    test.h
  * \details <Description>
@@ -20,7 +20,7 @@
 /*=============================[global const]==============================*/
 
 /*=======================[global function prototypes]======================*/
-void Sht31App_Init(void);
-void Sht31App_Read(float *Temp, float *Hum);
+void Ccs811App_Init(void);
+void Ccs811App_Read(void);
 
 #endif /* test_H */

@@ -2,5 +2,8 @@
     "terminal.integrated.env.windows": {
         "PATH": "C:\\Users\\cm00312699\\.platformio\\penv\\Scripts;C:\\Users\\cm00312699\\.platformio\\penv;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\windows\\system32;C:\\windows;C:\\windows\\System32\\Wbem;C:\\windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\Sennheiser\\SoftphoneSDK\\;C:\\d\\tools\\TortoiseSVN\\bin;\"C:\\d\\tools\\pre_inst\\Python27;C:\\d\\tools\\pre_inst\\Python27\\Scripts\";C:\\Program Files\\Git\\cmd;C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility;C:\\d\\tools\\putty\\;C:\\Users\\cm00312699\\AppData\\Local\\Microsoft\\WindowsApps;;C:\\d\\tools\\MicrosoftVSCode\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\windows\\system32;C:\\windows;C:\\windows\\System32\\Wbem;C:\\windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\Sennheiser\\SoftphoneSDK\\;C:\\d\\tools\\TortoiseSVN\\bin;\"C:\\d\\tools\\pre_inst\\Python27;C:\\d\\tools\\pre_inst\\Python27\\Scripts\";C:\\Program Files\\Git\\cmd;C:\\Program Files (x86)\\STMicroelectronics\\STM32 ST-LINK Utility\\ST-LINK Utility;C:\\d\\tools\\putty\\;C:\\Users\\cm00312699\\AppData\\Local\\Microsoft\\WindowsApps;;C:\\d\\tools\\MicrosoftVSCode\\bin",
         "PLATFORMIO_CALLER": "vscode"
+    },
+    "files.associations": {
+        "cmath": "cpp"
     }
 }

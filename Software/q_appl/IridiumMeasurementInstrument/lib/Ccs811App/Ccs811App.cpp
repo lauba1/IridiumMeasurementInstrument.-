@@ -11,16 +11,17 @@
 #include "Arduino.h"
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_SHT31.h>
-#include "Sht31App.h"
+#include <SparkFunCCS811.h>
+#include "Ccs811App.h"
 /*================================[defines]================================*/
-
+#define CCS811_ADDR 0x5B //Default I2C Address
 /*===============================[typedefs]================================*/
 
 /*=======================[local function prototypes]=======================*/
 
 /*==============================[global data]==============================*/
-Adafruit_SHT31 sht31 = Adafruit_SHT31();
+
+CCS811 mySensor(CCS811_ADDR);
 /*=============================[global const]==============================*/
 
 /*==============================[local const]==============================*/
@@ -30,34 +31,38 @@ Adafruit_SHT31 sht31 = Adafruit_SHT31();
 /*=================================[tasks]=================================*/
 
 /*============================[global functions]===========================*/
-void Sht31App_Init(void)
+void Ccs811App_Init(void)
 {
-    if (! sht31.begin(0x44)) 
-    {   // Set to 0x45 for alternate i2c addr
-    Serial.println("Couldn't find SHT31");
-    }
+  //It is recommended to check return status on .begin(), but it is not
+  //required.
+  CCS811Core::status returnCode = mySensor.begin();
+  if (returnCode != CCS811Core::SENSOR_SUCCESS)
+  {
+    Serial.println(".begin() returned with an error.");
+  }
 }
 
-void Sht31App_Read(float *Temp, float *Hum)
+void Ccs811App_Read(void)
 {
-  float t = sht31.readTemperature();
-  float h = sht31.readHumidity();
+  //Check to see if data is ready with .dataAvailable()
+  if (mySensor.dataAvailable())
+  {
+    //If so, have the sensor read and calculate the results.
+    //Get them later
+    mySensor.readAlgorithmResults();
 
-  if (! isnan(t)) {  // check if 'is not a number'
-    Serial.print("Temp *C = "); Serial.println(t);
-  } else { 
-    Serial.println("Failed to read temperature");
+    Serial.print("CO2[");
+    //Returns calculated CO2 reading
+    Serial.print(mySensor.getCO2());
+    Serial.print("] tVOC[");
+    //Returns calculated TVOC reading
+    Serial.print(mySensor.getTVOC());
+    Serial.print("] millis[");
+    //Simply the time since program start
+    Serial.print(millis());
+    Serial.print("]");
+    Serial.println();
   }
-  
-  if (! isnan(h)) {  // check if 'is not a number'
-    Serial.print("Hum. % = "); Serial.println(h);
-  } else { 
-    Serial.println("Failed to read humidity");
-  }
-  Serial.println();
-
-  *Temp = t;
-  *Hum = h;
 }
 /*============================[local functions]============================*/
 
