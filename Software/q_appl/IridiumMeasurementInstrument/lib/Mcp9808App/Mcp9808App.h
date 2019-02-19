@@ -21,6 +21,6 @@
 
 /*=======================[global function prototypes]======================*/
 void Mcp9808App_Init(void);
-void Mcp9808App_Read(void);
+void Mcp9808App_Read(float *fTemp);
 
 #endif /* test_H */

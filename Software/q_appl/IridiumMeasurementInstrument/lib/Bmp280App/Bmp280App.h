@@ -21,6 +21,6 @@
 
 /*=======================[global function prototypes]======================*/
 void Bmp280App_Init(void);
-void Bmp280App_Read(void);
+void Bmp280App_Read(float *fPressure);
 
 #endif /* test_H */

@@ -13,7 +13,7 @@
 #define BMP280_TASK_INTERVAL_S TASK_INTERVAL_S_TO_MS(35u)
 #define SHT31_TASK_INTERVAL_S TASK_INTERVAL_S_TO_MS(35u)
 #define CCS811_TASK_INTERVAL_S TASK_INTERVAL_S_TO_MS(35u)
-#define TSL2591_TASK_INTERVAL_S TASK_INTERVAL_S_TO_MS(1u)
+#define TSL2591_TASK_INTERVAL_S TASK_INTERVAL_S_TO_MS(35u)
 
 #define WIFI_AP "Domcio"
 #define WIFI_PASSWORD "NikolaKasia69"
@@ -54,8 +54,8 @@ void setup()
   Tsl2591App_Init();
   /*Init WiFi*/ 
   Serial.println("Connected to Cloud");
-  InitWiFi();
-  client.setServer( thingsboardServer, 1883 );
+  InitWiFi(); // connect to WiFi network 
+  client.setServer( thingsboardServer, 1883 ); //Set MQTT server
   lastSend = 0;
   /*Init scheduler*/ 
   cRunner.init();
@@ -97,6 +97,7 @@ void loop() {
 
 void ReadBMP280()
 {
+  float fPressure = 0;
   TogglePin ^= 1;
   if(TogglePin == 1)
   {
@@ -110,14 +111,53 @@ void ReadBMP280()
   
   Serial.print("t1: ");
   Serial.println(millis());
-  Bmp280App_Read(); 
+  Bmp280App_Read(&fPressure);
+  String sPressure = String(fPressure/100); /*hPa*/
+  
+  // Prepare a JSON payload string
+  String payload = "{";
+  payload += "\"PressBmp\":"; payload += sPressure; //payload += ",";
+  payload += "}";
+
+  // Send payload
+  char attributes[100];
+  payload.toCharArray( attributes, 100 );
+  client.publish( "v1/devices/me/telemetry", attributes );
+  Serial.println( attributes );
 }
 
 void ReadMCP9808_Temp()
 {  
+  float fTemp = 0;
   Serial.print("t2: ");
   Serial.println(millis());
-  Mcp9808App_Read();
+  Mcp9808App_Read(&fTemp);
+  String sTemp = String(fTemp);
+  
+  // Prepare a JSON payload string
+  String payload = "{";
+  payload += "\"TempMcp\":"; payload += sTemp; //payload += ",";
+  payload += "}";
+
+  // Send payload
+  char attributes[100];
+  payload.toCharArray( attributes, 100 );
+  client.publish( "v1/devices/me/telemetry", attributes );
+  Serial.println( attributes );
+
+  /*checking task telemetry*/
+  // Prepare a JSON payload string
+  unsigned long  lMillis = millis(); 
+  String millis = String(lMillis);
+  String payloadTask = "{";
+  payloadTask += "\"TaskMcp\":"; payloadTask += millis; //payload += ",";
+  payloadTask += "}";
+
+  // Send payload
+  char attributesTask[100];
+  payloadTask.toCharArray( attributesTask, 100 );
+  client.publish( "v1/devices/me/telemetry", attributesTask );
+  Serial.println( attributesTask );
 }
 
 void ReadSHT31(void)
@@ -140,8 +180,8 @@ void ReadSHT31(void)
 
   // Prepare a JSON payload string
   String payload = "{";
-  payload += "\"temperature\":"; payload += temperature; payload += ",";
-  payload += "\"humidity\":"; payload += humidity;
+  payload += "\"tempSht\":"; payload += temperature; payload += ",";
+  payload += "\"humSht\":"; payload += humidity;
   payload += "}";
 
   // Send payload
@@ -160,9 +200,23 @@ void ReadCCS811(void)
 
 void ReadTSL2591(void)
 {
+  float fLux = 0;
   Serial.print("t5: ");
   Serial.println(millis());
-  Tsl2591App_Read();
+  Tsl2591App_Read(&fLux);
+
+  String sLux = String(fLux);
+  
+  // Prepare a JSON payload string
+  String payload = "{";
+  payload += "\"LuxTsl\":"; payload += fLux; //payload += ",";
+  payload += "}";
+
+  // Send payload
+  char attributes[100];
+  payload.toCharArray( attributes, 100 );
+  client.publish( "v1/devices/me/telemetry", attributes );
+  Serial.println( attributes );
 }
 
 void InitWiFi()

@@ -21,6 +21,6 @@
 
 /*=======================[global function prototypes]======================*/
 void Tsl2591App_Init(void);
-void Tsl2591App_Read(void);
+void Tsl2591App_Read(float *fLux);
 
 #endif /* test_H */

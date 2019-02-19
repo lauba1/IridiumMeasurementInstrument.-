@@ -45,15 +45,19 @@ void Mcp9808App_Init(void)
     //  3    0.0625°C    250 ms
 }
 
-void Mcp9808App_Read(void)
+void Mcp9808App_Read(float *fTemp)
 {
-    float c = cTempObject.readTempC();
-    float f = cTempObject.readTempF();
-    Serial.print("Temp: "); 
-    Serial.print(c, 4); Serial.print("*C\t and "); 
-    Serial.print(f, 4); Serial.println("*F.");
+    #define SAMPLES 10u
+    float fSumOfTemperature = 0 ;
+    uint8 u8LocalCnt = 0;
+    for(u8LocalCnt = 0; u8LocalCnt < SAMPLES; u8LocalCnt++)
+    {
+        fSumOfTemperature += cTempObject.readTempC();
+        delay(100);
+    }
+    fSumOfTemperature /= SAMPLES;
     
-     Serial.println();
+    *fTemp = fSumOfTemperature;
 }
 /*============================[local functions]============================*/
 

@@ -39,8 +39,9 @@ void Bmp280App_Init(void)
     }
 }
 
-void Bmp280App_Read(void)
+void Bmp280App_Read(float *fPressure)
 {
+
     Serial.print("Temperature = ");
     Serial.print(bmpObject.readTemperature());
     Serial.println(" *C");
@@ -48,6 +49,7 @@ void Bmp280App_Read(void)
     Serial.print("Pressure = ");
     Serial.print(bmpObject.readPressure());
     Serial.println(" Pa");
+    *fPressure = bmpObject.readPressure();
 
     Serial.print("Approx altitude = ");
     Serial.print(bmpObject.readAltitude(1013.25)); // this should be adjusted to your local forcase

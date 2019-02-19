@@ -21,7 +21,7 @@
 static void displaySensorDetails(void);
 static void configureSensor(void);
 static void simpleRead(void);
-static void advancedRead(void);
+static void advancedRead(float *fLux);
 static void unifiedSensorAPIRead(void);
 /*==============================[global data]==============================*/
 Adafruit_TSL2591 tsl = Adafruit_TSL2591(2591); // pass in a number for the sensor identifier (for your use later)
@@ -53,10 +53,10 @@ void Tsl2591App_Init(void)
 
 }
 
-void Tsl2591App_Read(void)
+void Tsl2591App_Read(float *fLux)
 {
   //simpleRead(); 
-  advancedRead();
+  advancedRead(fLux);
   // unifiedSensorAPIRead();
 }
 
@@ -155,7 +155,7 @@ static void simpleRead(void)
     Show how to read IR and Full Spectrum at once and convert to lux
 */
 /**************************************************************************/
-static void advancedRead(void)
+static void advancedRead(float *fLux)
 {
   // More advanced data read example. Read 32 bits with top 16 bits IR, bottom 16 bits full spectrum
   // That way you can do whatever math and comparisons you want!
@@ -168,6 +168,7 @@ static void advancedRead(void)
   Serial.print(F("Full: ")); Serial.print(full); Serial.print(F("  "));
   Serial.print(F("Visible: ")); Serial.print(full - ir); Serial.print(F("  "));
   Serial.print(F("Lux: ")); Serial.println(tsl.calculateLux(full, ir), 6);
+  *fLux = tsl.calculateLux(full, ir);
 }
 
 /**************************************************************************/
