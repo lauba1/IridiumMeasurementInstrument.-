@@ -56,6 +56,7 @@ void Tsl2591App_Init(void)
 void Tsl2591App_Read(float *fLux)
 {
   //simpleRead(); 
+  
   advancedRead(fLux);
   // unifiedSensorAPIRead();
 }
@@ -168,7 +169,15 @@ static void advancedRead(float *fLux)
   Serial.print(F("Full: ")); Serial.print(full); Serial.print(F("  "));
   Serial.print(F("Visible: ")); Serial.print(full - ir); Serial.print(F("  "));
   Serial.print(F("Lux: ")); Serial.println(tsl.calculateLux(full, ir), 6);
-  *fLux = tsl.calculateLux(full, ir);
+
+  #define SAMPLES 5u
+  float fLuxSum = 0;
+  for(uint8 u8Cnt = 0u; u8Cnt < SAMPLES; u8Cnt++ )
+  {
+    fLuxSum += tsl.calculateLux(full, ir);
+    delay(100);
+  }
+  *fLux = (fLuxSum/SAMPLES);
 }
 
 /**************************************************************************/

@@ -40,8 +40,18 @@ void Sht31App_Init(void)
 
 void Sht31App_Read(float *Temp, float *Hum)
 {
-  float t = sht31.readTemperature();
-  float h = sht31.readHumidity();
+  #define SAMPLES 5u
+  float t = 0;
+  float h = 0;
+  for(uint8 u8Cnt = 0u; u8Cnt < SAMPLES; u8Cnt++ )
+  {
+     t += sht31.readTemperature();
+     h += sht31.readHumidity();
+     delay(100);
+  }
+  
+  t /= SAMPLES;
+  h /= SAMPLES;
 
   if (! isnan(t)) {  // check if 'is not a number'
     Serial.print("Temp *C = "); Serial.println(t);

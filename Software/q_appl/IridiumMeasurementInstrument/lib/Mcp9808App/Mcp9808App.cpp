@@ -34,8 +34,8 @@ void Mcp9808App_Init(void)
 {
     if (!cTempObject.begin(0x18)) 
     {
-    Serial.println("Couldn't find MCP9808! Check your connections and verify the address is correct.");
-    while (1);
+        Serial.println("Couldn't find MCP9808! Check your connections and verify the address is correct.");
+    
     }
     cTempObject.setResolution(3); // sets the resolution mode of reading, the modes are defined in the table bellow:
     // Mode Resolution SampleTime
