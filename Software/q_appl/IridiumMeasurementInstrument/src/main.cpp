@@ -17,7 +17,7 @@
 
 #define WIFI_AP "Domcio"
 #define WIFI_PASSWORD "NikolaKasia69"
-#define TOKEN "bg3MVAbYlw5kPOSDG460" 
+#define TOKEN "YXl2r7XNlydZTsIdM4Vf" 
 /*Some testing callback */
 void ReadMCP9808_Temp(void);
 void ReadBMP280(void);
@@ -35,7 +35,7 @@ Task cTask4(CCS811_TASK_INTERVAL_S,TASK_FOREVER,&ReadCCS811);
 Task cTask5(TSL2591_TASK_INTERVAL_S,TASK_FOREVER,&ReadTSL2591);
 
 Scheduler cRunner;
-char thingsboardServer[] = "demo.thingsboard.io";
+char thingsboardServer[] = "tb.szymonstuglik.com";
 WiFiClient wifiClient;
 int TogglePin = 0;
 PubSubClient client(wifiClient);
@@ -261,7 +261,7 @@ void reconnect() {
     }
     Serial.print("Connecting to ThingsBoard node ...");
     // Attempt to connect (clientId, username, password)
-    if ( client.connect("ESP8266 Device", TOKEN, NULL) ) {
+    if ( client.connect("33f10720-52d0-11e9-af6d-8928b3676fd7", TOKEN, NULL) ) {
       Serial.println( "[DONE]" );
     } else {
       Serial.print( "[FAILED] [ rc = " );
